@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <title>Aplicaciones de Internet</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href='{% static "css/bootstrap.min.css" %}' type="text/css" />
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    </head>
+<body>
+    <div class="container">
+        <div class="row">
+            <img src="{% static 'images/userena.svg' %}" class="rounded" style="width:200px"/>
+            <h1>Aplicaciones de Internet</h1>
+            <h3>Asignaturas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Código</td>
+                        <td>Acción</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    {% for course in courses %}                   
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.code }}</td>
+                    {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
