@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'holidays'
+    'movies'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +131,4 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+CORS_ORIGIN_ALLOW_ALL = False
