@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Asignaturas</title>
+</head>
+<body>
+    <h1>Lista de Asignaturas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Cantidad de Alumnos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asignatura in asignaturas %}
+                <tr>
+                    <td>{{ asignatura.codigo }}</td>
+                    <td>{{ asignatura.nombre }}</td>
+                    <td>{{ asignatura.alumno_set.count }}</td>
+                    <td>
+                        <a href="{% url 'editar_asignatura' asignatura.id %}">Editar</a>
+                        <a href="{% url 'eliminar_asignatura' asignatura.id %}">Eliminar</a>
+                        <a href="{% url 'agregar_alumnos' asignatura.id %}">Agregar Alumnos</a>
+                        <a href="{% url 'detalle_asignatura' asignatura.id %}">Detalle</a> <!-- Agregar enlace a detalle_asignatura -->
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No hay asignaturas disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'crear_asignatura' %}">Crear Nueva Asignatura</a>
+</body>
+</html>

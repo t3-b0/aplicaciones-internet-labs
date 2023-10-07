@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Alumno a {{ asignatura.nombre }}</title>
+</head>
+<body>
+    <h1>Agregar Alumno a {{ asignatura.nombre }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Agregar Alumno</button>
+    </form>
+    <a href="{% url 'lista_asignaturas' %}">Volver a la Lista</a>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Asignatura: {{ asignatura.nombre }}</title>
+</head>
+<body>
+    <h1>Detalle de Asignatura</h1>
+    <p><strong>Nombre de la Asignatura:</strong> {{ asignatura.nombre }}</p>
+    <p><strong>Código de la Asignatura:</strong> {{ asignatura.codigo }}</p>
+    
+    <!-- Listado de Alumnos inscritos en la asignatura -->
+    <h2>Alumnos Inscritos</h2>
+    <ul>
+        {% for alumno in asignatura.alumno_set.all %}
+            <li>
+                {{ alumno.nombre }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
+                <a href="{% url 'eliminar_alumno' asignatura_id=asignatura.id alumno_id=alumno.id %}">Eliminar</a>
+            </li>
+        {% empty %}
+            <li>No hay alumnos inscritos en esta asignatura.</li>
+        {% endfor %}
+    </ul>
+    
+    <a href="{% url 'lista_asignaturas' %}">Volver a la Lista de Asignaturas</a>
+</body>
+</html>
