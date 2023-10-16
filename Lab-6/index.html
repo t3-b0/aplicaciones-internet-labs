@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta chrset="UTF 8">
+<title>Movies</title>
+<link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="sampleApp">
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<script src="lib/bootstrap.js"></script>
+
+<h1> Movies</h1>
+<table class="table table-striped">
+<thead>
+<tr> <th>#</th><th>Ejemplo</th><th>Description</th><th></th> </tr> </thead>
+<tbody>
+<tr>
+<td>l</td><td>l</td><td>Movie 1</td>
+<td><a href="#!Movie/1">Movie details</a></td>
+</tr>
+<tr>
+<td>2</td><td>2</td><td>Movie 2</td>
+<td><a href="#!Movie/2">Movie details</a></td>
+</tr>
+<tr>
+<td>3</td><td>3</td><td>Movie 3</td>
+<td><a href="#!Movie/3">Movie details</a></td>
+</tr>
+</tbody>
+</table>
+
+<div ng-view></div>
+<script>
+var sampleApp = angular.module('sampleApp',['ngRoute']);
+
+sampleApp.config(
+function($routeProvider){
+$routeProvider.
+when('/Movie/:movieId',{
+templateUrl : 'movie.html',
+controller: 'AngularController'
+})
+});
+
+sampleApp.controller('AngularController',function($scope,$routeParams) {
+
+$scope.movieid=$routeParams.MovieId
+
+});
+</script>
+</body>
+</html>
