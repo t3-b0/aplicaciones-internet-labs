@@ -1,0 +1,7 @@
+<h2>Detalles de Pelicula {{selectedMovie.title}} {{selectedMovie.produced_date | date:'yyyy'}}</h2>
+<div>
+    <p><img ng-src="{{selectedMovie.poster.url}}" alt="Imagen de la película" width="200" height="300"></p>
+    <p>Descripción: {{selectedMovie.description ? selectedMovie.description : 'No disponible'}}</p>
+    <p>Palabras clave: {{selectedMovie.keywords ? selectedMovie.keywords : 'No disponible'}}</p>
+    <p>Género : {{selectedMovie.genres ? selectedMovie.genres :'No disponible'}}</p>
+</div>

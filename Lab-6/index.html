@@ -1,55 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<meta chrset="UTF 8">
-<title>Movies</title>
-<link rel="stylesheet" href="css/bootstrap.css"/>
+    <meta charset="UTF-8">
+    <title>Pelis</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body ng-app="sampleApp">
+<body ng-app="sampleApp" ng-controller="MoviesController">
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
-<script src="lib/bootstrap.js"></script>
+    <h1>Peliculas</h1>
 
-<h1> Movies</h1>
-<table class="table table-striped">
-<thead>
-<tr> <th>#</th><th>Ejemplo</th><th>Description</th><th></th> </tr> </thead>
-<tbody>
-<tr>
-<td>l</td><td>l</td><td>Movie 1</td>
-<td><a href="#!Movie/1">Movie details</a></td>
-</tr>
-<tr>
-<td>2</td><td>2</td><td>Movie 2</td>
-<td><a href="#!Movie/2">Movie details</a></td>
-</tr>
-<tr>
-<td>3</td><td>3</td><td>Movie 3</td>
-<td><a href="#!Movie/3">Movie details</a></td>
-</tr>
-</tbody>
-</table>
+    <!-- Selector de Géneros -->
+    <select ng-model="selectedGenre" ng-options="genre as genre.name for genre in genres" ng-change="updateMovies()">
+        <option value="">Elige una Categoría</option>
+    </select>
 
-<div ng-view></div>
-<script>
-var sampleApp = angular.module('sampleApp',['ngRoute']);
+    <!-- Tabla de Películas -->
+    <table class="table table-striped">
+        <thead>
+            <tr> <th>#</th><th>Titulo</th><th>Fecha</th><th>Detalles</th> </tr> 
+        </thead>
+        <tbody>
+            <tr ng-repeat-start="movie in movies">
+                <td>{{$index + 1}}</td>
+                <td>{{movie.title}}</td>
+                <td>{{movie.produced_date ? (movie.produced_date | date:'yyyy-MM-dd') : 'No disponible'}}</td>
+                <td><a href="" ng-click="showMovieDetails(movie)">Detalles de Pelicula</a></td>
+            </tr>
+            <tr ng-repeat-end ng-if="selectedMovie && selectedMovie.slug === movie.slug">
+                <td colspan="4"><div ng-include="'a2.html'"></div></td>
+            </tr>
+        </tbody>
+    </table>
 
-sampleApp.config(
-function($routeProvider){
-$routeProvider.
-when('/Movie/:movieId',{
-templateUrl : 'movie.html',
-controller: 'AngularController'
-})
-});
+    <script>
+        var sampleApp = angular.module('sampleApp', ['ngRoute']);
 
-sampleApp.controller('AngularController',function($scope,$routeParams) {
+        sampleApp.controller('MoviesController', function($scope, $http) {
+            $scope.genres = [];
+            $scope.selectedGenre = [];
+            $scope.selectedMovie = null;
 
-$scope.movieid=$routeParams.MovieId
+            // Cargar géneros al iniciar
+            $http.get('http://api.filmon.com/api/vod/genres').then(function(response) {
+                $scope.genres = response.data.response;
+            });
 
-});
-</script>
+            // Función que se llama cuando se selecciona un género
+            $scope.updateMovies = function() {
+                if ($scope.selectedGenre && $scope.selectedGenre.slug) {
+                    $http.get('http://api.filmon.com/api/vod/search?genre=' + $scope.selectedGenre.slug).then(function(response) {
+                        $scope.movies = response.data.response;
+                    }, function(error) {
+                        console.error("Error al cargar películas:", error);
+                    });
+                }
+            };
+
+            $scope.showMovieDetails = function(movie) {
+                if ($scope.selectedMovie === movie) {
+                    $scope.selectedMovie = null; // Cierra a2.html si la misma película es seleccionada nuevamente
+                } else {
+                    $scope.selectedMovie = movie; // Muestra a2.html para la película seleccionada
+                }
+            };
+        });
+    </script>
+
 </body>
 </html>
